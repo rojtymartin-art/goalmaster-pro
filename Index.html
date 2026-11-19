@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>GoalMaster PRO – Futbalový Kvíz, Prestupy & Manažér | Online Hra</title>
+  <meta name="description" content="Otestuj svoje futbalové znalosti v GoalMaster PRO! Klasický futbalový kvíz, Detektív prestupov, Vyššie alebo Nižšie a Prezident Klubu v 12 jazykoch." />
+  <meta name="keywords" content="futbalovy kviz, futbalova hra, liga majstrov kviz, hadaj futbalistu, prestupy hra, football quiz online, GoalMaster PRO" />
+  <meta name="theme-color" content="#070d0a" />
+  <style>
+    :root {
+      --bg-dark: #070d0a;
+      --bg-panel: #0f1a14;
+      --bg-card: #15241c;
+      --bg-card-hover: #1c3025;
+      --border: #233b2e;
+      --green: #10b981;
+      --green-glow: rgba(16, 185, 129, 0.25);
+      --gold: #f5b942;
+      --gold-dark: #b8821b;
+      --gold-glow: rgba(245, 185, 66, 0.28);
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --text: #f3f7f4;
+      --text-muted: #94a89c;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at top center, #112419 0%, var(--bg-dark) 65%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* TOP BAR */
+    header {
+      background: rgba(15, 26, 20, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--green), #059669);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      box-shadow: 0 0 16px var(--green-glow);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pro-tag {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #140e00;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .vip-user-badge {
+      display: none;
+      background: linear-gradient(135deg, #fde047, #d97706);
+      color: #1a1100;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 99px;
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    body.is-vip .vip-user-badge { display: inline-flex; align-items: center; gap: 3px; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 5px 11px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stat-pill.hearts { color: #f87171; }
+    .stat-pill.coins { color: var(--gold); cursor: pointer; }
+    .stat-pill.coins:hover { border-color: var(--gold); }
+
+    .btn-vip-top {
+      background: linear-gradient(135deg, var(--gold), #e09612);
+      color: #140e00;
+      border: none;
+      border-radius: 99px;
+      padding: 6px 13px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      box-shadow: 0 0 14px var(--gold-glow);
+      transition: transform 0.15s;
+    }
+    .btn-vip-top:hover { transform: scale(1.04); }
+
+    .lang-select, .icon-btn {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 9px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+    .lang-select:hover, .icon-btn:hover { border-color: var(--green); }
+
+    /* MAIN CONTAINER */
+    main {
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px 90px;
+      flex: 1;
+    }
+
+    /* PLAYER PROFILE BAR */
+    .profile-bar {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .rank-info { flex: 1; min-width: 220px; }
+    .rank-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .rank-name { color: var(--green); }
+    .xp-bar-bg {
+      height: 8px;
+      background: #08100c;
+      border-radius: 99px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .xp-bar-fill {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, var(--green), #34d399);
+      transition: width 0.4s ease;
+    }
+
+    .streak-box {
+      display: flex;
+      gap: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .streak-box strong { color: var(--text); font-size: 1rem; }
+
+    /* MODE GRID (HOME) */
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .mode-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-3px);
+      background: var(--bg-card-hover);
+      border-color: var(--green);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .mode-card.vip-locked {
+      border-color: rgba(245, 185, 66, 0.45);
+    }
+    .mode-card.vip-locked:hover {
+      border-color: var(--gold);
+      box-shadow: 0 10px 25px var(--gold-glow);
+    }
+
+    .mode-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .mode-badge.vip {
+      background: rgba(245, 185, 66, 0.18);
+      color: var(--gold);
+      border-color: rgba(245, 185, 66, 0.5);
+    }
+
+    .mode-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    .mode-card h3 {
+      font-size: 1.12rem;
+      margin-bottom: 6px;
+    }
+
+    .mode-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+
+    .mode-cta {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mode-card.vip-locked .mode-cta { color: var(--gold); }
+
+    /* GAME VIEWS */
+    .view { display: none; animation: fadeIn 0.25s ease; }
+    .view.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .game-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-back {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+    .btn-back:hover { border-color: var(--text-muted); }
+
+    .game-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    /* CATEGORY CHIPS */
+    .cat-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    .cat-chip {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 7px 13px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .cat-chip.active {
+      background: var(--green);
+      color: #04130b;
+      border-color: var(--green);
+    }
+    .cat-chip.vip-cat {
+      border-color: rgba(245, 185, 66, 0.5);
+      color: var(--gold);
+    }
+    .cat-chip.vip-cat.active {
+      background: var(--gold);
+      color: #170f00;
+    }
+
+    /* QUIZ STYLES */
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .timer-pill {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 800;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+
+    .opt-btn {
+      background: var(--bg-card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--green);
+      background: var(--bg-card-hover);
+    }
+    .opt-btn.correct {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: var(--green);
+      color: #6ee7b7;
+    }
+    .opt-btn.wrong {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: var(--red);
+      color: #fca5a5;
+    }
+    .opt-btn.eliminated {
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    .lifeline-bar {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-hint {
+      background: rgba(245, 185, 66, 0.14);
+      color: var(--gold);
+      border: 1px solid rgba(245, 185, 66, 0.45);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+    .btn-hint:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* TRANSFER DETECTIVE */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .timeline-item {
+      background: var(--bg-card);
+      border-left: 4px solid var(--green);
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .t-years { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; }
+    .t-club { font-size: 1rem; font-weight: 800; }
+    .t-fee {
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(245, 185, 66, 0.14);
+      color: var(--gold);
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+
+    .clues-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .clue-tag {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .guess-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .guess-input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .guess-input:focus { border-color: var(--green); }
+
+    .btn-primary {
+      background: var(--green);
+      color: #03150c;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+    .btn-primary:hover { filter: brightness(1.08); }
+
+    .quick-picks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .pick-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .pick-chip:hover { color: var(--text); border-color: var(--green); }
+
+    /* HIGHER OR LOWER */
+    .hl-arena {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    @media (max-width: 650px) {
+      .hl-arena { grid-template-columns: 1fr; }
+    }
+
+    .hl-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+    .hl-player-name { font-size: 1.25rem; font-weight: 900; margin-bottom: 4px; }
+    .hl-player-sub { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 14px; }
+    .hl-stat-val { font-size: 2rem; font-weight: 900; color: var(--gold); }
+    .hl-stat-label { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .hl-vs {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #160e00;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+    }
+
+    .hl-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-higher {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--green);
+      color: #6ee7b7;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-lower {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--red);
+      color: #fca5a5;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* CLUB PRESIDENT */
+    .meters-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 550px) { .meters-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .meter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+    }
+    .meter-title { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+    .meter-bar {
+      height: 8px;
+      background: #070d0a;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      background: var(--green);
+      transition: width 0.3s, background 0.3s;
+    }
+    .meter-val { font-size: 0.85rem; font-weight: 800; margin-top: 5px; }
+
+    .dilemma-card {
+      background: linear-gradient(145deg, var(--bg-card), #101d16);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .dilemma-role {
+      display: inline-block;
+      background: rgba(245, 185, 66, 0.15);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+    .dilemma-text {
+      font-size: 1.12rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+    .dilemma-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .btn-no {
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid var(--red);
+      color: #fca5a5;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-yes {
+      background: rgba(16, 185, 129, 0.22);
+      border: 1px solid var(--green);
+      color: #6ee7b7;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* FEEDBACK BANNER */
+    .feedback-msg {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .feedback-msg.show { display: block; }
+    .feedback-msg.ok { background: rgba(16, 185, 129, 0.18); border: 1px solid var(--green); color: #6ee7b7; }
+    .feedback-msg.err { background: rgba(239, 68, 68, 0.18); border: 1px solid var(--red); color: #fca5a5; }
+
+    /* MODAL (VIP & SHOP) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 300;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .vip-hero {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .vip-hero h2 {
+      font-size: 1.45rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .vip-perks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .vip-perks li {
+      background: var(--bg-card);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-stripe {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #140e00;
+      font-weight: 900;
+      font-size: 1.05rem;
+      padding: 14px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px var(--gold-glow);
+      margin-bottom: 14px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .code-box {
+      background: var(--bg-card);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      margin-bottom: 18px;
+    }
+    .code-box label { font-size: 0.78rem; color: var(--text-muted); display: block; margin-bottom: 6px; }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .shop-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .shop-item button {
+      margin-top: 8px;
+      width: 100%;
+      background: var(--green);
+      color: #04130b;
+      border: none;
+      padding: 7px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* SIMULATED AD BAR (HIDDEN FOR VIP) */
+    .ad-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0c1510;
+      border-top: 1px solid var(--border);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      z-index: 90;
+    }
+    body.is-vip .ad-banner { display: none; }
+    .ad-remove-btn {
+      background: rgba(245, 185, 66, 0.16);
+      color: var(--gold);
+      border: 1px solid rgba(245, 185, 66, 0.4);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION -->
+  <header>
+    <div class="header-inner">
+      <div class="brand" onclick="goHome()">
+        <div class="brand-logo">⚽</div>
+        <div class="brand-title">
+          GoalMaster <span class="pro-tag">PRO</span>
+          <span class="vip-user-badge">👑 VIP</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="stat-pill hearts" id="heartsPill" title="Životy">❤️ <span id="heartsText">3/3</span></div>
+        <div class="stat-pill coins" onclick="openVipModal()" title="Herné mince">🪙 <span id="coinsText">150</span></div>
+        <button class="btn-vip-top" onclick="openVipModal()" id="vipTopBtn">👑 VIP KLUB</button>
+        <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)" aria-label="Language">
+          <option value="sk">🇸🇰 SK</option>
+          <option value="cz">🇨🇿 CZ</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="fr">🇫🇷 FR</option>
+          <option value="it">🇮🇹 IT</option>
+          <option value="pt">🇵🇹 PT</option>
+          <option value="pl">🇵🇱 PL</option>
+          <option value="tr">🇹🇷 TR</option>
+          <option value="nl">🇳🇱 NL</option>
+          <option value="hr">🇭🇷 HR</option>
+        </select>
+        <button class="icon-btn" id="soundBtn" onclick="toggleSound()">🔊</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- PLAYER RANK & XP BAR -->
+    <div class="profile-bar">
+      <div class="rank-info">
+        <div class="rank-top">
+          <span><span data-i18n="rankLabel">Hodnosť:</span> <strong class="rank-name" id="rankName">Dorastenec</strong></span>
+          <span id="xpText">0 / 200 XP</span>
+        </div>
+        <div class="xp-bar-bg">
+          <div class="xp-bar-fill" id="xpFill"></div>
+        </div>
+      </div>
+      <div class="streak-box">
+        <div>🔥 <span data-i18n="streakLabel">Séria:</span> <strong id="streakText">0</strong></div>
+        <div>🏆 <span data-i18n="solvedLabel">Vyriešené:</span> <strong id="solvedText">0</strong></div>
+      </div>
+    </div>
+
+    <!-- HOME VIEW: 4 GAME MODES -->
+    <section id="view-home" class="view active">
+      <div class="section-title">
+        <span data-i18n="chooseMode">Vyber si herný režim</span>
+      </div>
+
+      <div class="modes-grid">
+        <!-- MODE 1: QUIZ -->
+        <div class="mode-card" onclick="startQuizMode()">
+          <span class="mode-badge" data-i18n="badgeFree">ZADARMO</span>
+          <div>
+            <div class="mode-icon">🧠</div>
+            <h3 data-i18n="m1Title">Klasický Futbalový Kvíz</h3>
+            <p data-i18n="m1Desc">Liga majstrov, Premier League, MS, SK/CZ futbal a VIP kategória Futbalové legendy.</p>
+          </div>
+          <div class="mode-cta"><span data-i18n="playNow">Hrať teraz</span> →</div>
+        </div>
+
+        <!-- MODE 2: TRANSFER DETECTIVE -->
+        <div class="mode-card" onclick="startDetectiveMode()">
+          <span class="mode-badge" id="detectiveBadge">3 / DEŇ FREE</span>
+          <div>
+            <div class="mode-icon">🕵️</div>
+            <h3 data-i18n="m2Title">Kto som? Detektív prestupov</h3>
+            <p data-i18n="m2Desc">Uhádni futbalistu podľa časovej osi klubov, rokov a prestupových súm.</p>
+          </div>
+          <div class="mode-cta"><span data-i18n="playNow">Hrať teraz</span> →</div>
+        </div>
+
+        <!-- MODE 3: HIGHER OR LOWER -->
+        <div class="mode-card" onclick="startHigherLowerMode()">
+          <span class="mode-badge" data-i18n="badgeFree">ZADARMO</span>
+          <div>
+            <div class="mode-icon">📈</div>
+            <h3 data-i18n="m3Title">Vyššie alebo Nižšie</h3>
+            <p data-i18n="m3Desc">Ktorý hráč strelil v kariére viac gólov alebo mal vyššiu trhovú hodnotu v €?</p>
+          </div>
+          <div class="mode-cta"><span data-i18n="playNow">Hrať teraz</span> →</div>
+        </div>
+
+        <!-- MODE 4: CLUB PRESIDENT (VIP) -->
+        <div class="mode-card vip-locked" id="presidentCard" onclick="startPresidentMode()">
+          <span class="mode-badge vip" id="presidentBadge">👑 VIP EXKLUZÍVNE</span>
+          <div>
+            <div class="mode-icon">👔</div>
+            <h3 data-i18n="m4Title">Prezident Klubu: Áno / Nie</h3>
+            <p data-i18n="m4Desc">Veď futbalový veľkoklub! Rozhoduj o prestupoch, škandáloch a financiách bez vyhadzovu.</p>
+          </div>
+          <div class="mode-cta"><span id="presidentCta" data-i18n="unlockVip">Odomknúť VIP</span> →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 1: CLASSIC QUIZ -->
+    <section id="view-quiz" class="view">
+      <div class="game-header">
+        <button class="btn-back" onclick="goHome()">← <span data-i18n="backMenu">Späť do menu</span></button>
+        <div class="timer-pill">⏱️ <span id="quizTimer">15</span>s</div>
+      </div>
+
+      <div class="cat-bar" id="quizCategories">
+        <button class="cat-chip active" data-cat="ALL" onclick="selectQuizCategory('ALL', this)" data-i18n="catAll">Všetky ligy</button>
+        <button class="cat-chip" data-cat="UCL" onclick="selectQuizCategory('UCL', this)">Liga majstrov</button>
+        <button class="cat-chip" data-cat="PL" onclick="selectQuizCategory('PL', this)">Premier League</button>
+        <button class="cat-chip" data-cat="WC" onclick="selectQuizCategory('WC', this)">MS & EURO</button>
+        <button class="cat-chip" data-cat="SKCZ" onclick="selectQuizCategory('SKCZ', this)">SK & CZ Futbal</button>
+        <button class="cat-chip vip-cat" data-cat="LEGENDS" onclick="selectQuizCategory('LEGENDS', this)">👑 Legendy (VIP)</button>
+      </div>
+
+      <div class="game-box">
+        <div class="quiz-meta">
+          <span id="quizCategoryLabel">Liga majstrov</span>
+          <span id="quizProgressLabel">#1</span>
+        </div>
+        <div class="question-text" id="quizQuestion">Načítavam otázku...</div>
+        <div class="options-grid" id="quizOptions"></div>
+
+        <div class="feedback-msg" id="quizFeedback"></div>
+
+        <div class="lifeline-bar">
+          <button class="btn-hint" id="varHintBtn" onclick="useVarHint()">📺 VAR 50/50 (<span id="varCostText">30 🪙</span>)</button>
+          <button class="btn-primary" id="nextQuizBtn" style="display:none;" onclick="loadNextQuiz()" data-i18n="nextBtn">Ďalšia otázka →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: TRANSFER DETECTIVE -->
+    <section id="view-detective" class="view">
+      <div class="game-header">
+        <button class="btn-back" onclick="goHome()">← <span data-i18n="backMenu">Späť do menu</span></button>
+        <div class="stat-pill"><span data-i18n="attemptsLeft">Pokusy:</span> <strong id="detAttempts">5/5</strong></div>
+      </div>
+
+      <div class="game-box">
+        <h3 style="margin-bottom:4px;" data-i18n="detPrompt">Ktorý futbalista má takúto kariéru?</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);" data-i18n="detSub">Každý chybný tip odhalí novú indíciu.</p>
+
+        <div class="timeline-list" id="detTimeline"></div>
+        <div class="clues-box" id="detClues"></div>
+
+        <div class="guess-row">
+          <input type="text" class="guess-input" id="detInput" placeholder="Napíš meno hráča (napr. Luka Modrić)..." onkeydown="if(event.key==='Enter') submitDetectiveGuess()" />
+          <button class="btn-primary" onclick="submitDetectiveGuess()" data-i18n="guessBtn">Tipnúť</button>
+        </div>
+
+        <div class="quick-picks" id="detQuickPicks"></div>
+        <div class="feedback-msg" id="detFeedback"></div>
+
+        <div class="lifeline-bar">
+          <button class="btn-hint" id="xrayBtn" onclick="useXrayHint()">🔬 Röntgen indícia (<span id="xrayCostText">40 🪙</span>)</button>
+          <button class="btn-primary" id="nextDetBtn" style="display:none;" onclick="loadNextDetective()" data-i18n="nextPlayerBtn">Ďalší hráč →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: HIGHER OR LOWER -->
+    <section id="view-higherlower" class="view">
+      <div class="game-header">
+        <button class="btn-back" onclick="goHome()">← <span data-i18n="backMenu">Späť do menu</span></button>
+        <div class="stat-pill">🔥 <span data-i18n="hlStreak">Aktuálna séria:</span> <strong id="hlStreakVal">0</strong></div>
+      </div>
+
+      <div class="game-box">
+        <h3 style="text-align:center; margin-bottom:6px;" id="hlMetricTitle">Kto strelil v kariére VIAC gólov?</h3>
+        <div class="hl-arena">
+          <div class="hl-card">
+            <div class="hl-player-name" id="hlNameA">Player A</div>
+            <div class="hl-player-sub" id="hlSubA">Club / Country</div>
+            <div class="hl-stat-val" id="hlValA">0</div>
+            <div class="hl-stat-label" id="hlUnitA">Gólov</div>
+          </div>
+
+          <div class="hl-vs">VS</div>
+
+          <div class="hl-card">
+            <div class="hl-player-name" id="hlNameB">Player B</div>
+            <div class="hl-player-sub" id="hlSubB">Club / Country</div>
+            <div class="hl-stat-val" id="hlValB">?</div>
+            <div class="hl-stat-label" id="hlUnitB">Gólov</div>
+            <div class="hl-btns" id="hlActionBtns">
+              <button class="btn-higher" onclick="guessHigherLower(true)">▲ <span data-i18n="higherBtn">VYŠŠIE</span></button>
+              <button class="btn-lower" onclick="guessHigherLower(false)">▼ <span data-i18n="lowerBtn">NIŽŠIE</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="feedback-msg" id="hlFeedback"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: CLUB PRESIDENT (VIP) -->
+    <section id="view-president" class="view">
+      <div class="game-header">
+        <button class="btn-back" onclick="goHome()">← <span data-i18n="backMenu">Späť do menu</span></button>
+        <div class="stat-pill">📅 <span data-i18n="weekLabel">Týždeň vo funkcii:</span> <strong id="presWeeks">1</strong></div>
+      </div>
+
+      <div class="meters-grid">
+        <div class="meter-card">
+          <div class="meter-title">💰 <span data-i18n="mMoney">Peniaze</span></div>
+          <div class="meter-bar"><div class="meter-fill" id="barMoney" style="width:50%"></div></div>
+          <div class="meter-val" id="valMoney">50%</div>
+        </div>
+        <div class="meter-card">
+          <div class="meter-title">📣 <span data-i18n="mFans">Fanúšikovia</span></div>
+          <div class="meter-bar"><div class="meter-fill" id="barFans" style="width:50%"></div></div>
+          <div class="meter-val" id="valFans">50%</div>
+        </div>
+        <div class="meter-card">
+          <div class="meter-title">⚽ <span data-i18n="mSquad">Kabína</span></div>
+          <div class="meter-bar"><div class="meter-fill" id="barSquad" style="width:50%"></div></div>
+          <div class="meter-val" id="valSquad">50%</div>
+        </div>
+        <div class="meter-card">
+          <div class="meter-title">👔 <span data-i18n="mBoard">Vedenie</span></div>
+          <div class="meter-bar"><div class="meter-fill" id="barBoard" style="width:50%"></div></div>
+          <div class="meter-val" id="valBoard">50%</div>
+        </div>
+      </div>
+
+      <div class="dilemma-card">
+        <div class="dilemma-role" id="presRole">Hlavný tréner</div>
+        <div class="dilemma-text" id="presText">Načítavam situáciu v klube...</div>
+        <div class="dilemma-actions" id="presBtns">
+          <button class="btn-no" onclick="choosePresident(false)">❌ <span data-i18n="noBtn">NIE / ODMIETNUŤ</span></button>
+          <button class="btn-yes" onclick="choosePresident(true)">✅ <span data-i18n="yesBtn">ÁNO / SCHVÁLIŤ</span></button>
+        </div>
+        <div class="feedback-msg" id="presFeedback"></div>
+        <button class="btn-primary" id="presRestartBtn" style="display:none; margin-top:14px;" onclick="resetPresidentGame()" data-i18n="restartClub">Začať novú sezónu</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- SIMULATED AD BANNER (ONLY FOR FREE USERS) -->
+  <div class="ad-banner" id="adBanner">
+    <span>📢 Reklama: Tipuj futbalové výsledky zodpovedne!</span>
+    <button class="ad-remove-btn" onclick="openVipModal()" data-i18n="removeAds">Vypnúť reklamy (VIP)</button>
+  </div>
+
+  <!-- VIP CLUB & SHOP MODAL -->
+  <div class="modal-backdrop" id="vipModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeVipModal()">✕</button>
+      <div class="vip-hero">
+        <h2>👑 GoalMaster VIP KLUB</h2>
+        <p style="font-size:0.88rem; color:var(--text-muted);" data-i18n="vipSub">Odomkni plný potenciál hry jednorazovo a navždy!</p>
+      </div>
+
+      <ul class="vip-perks">
+        <li>❤️ <span data-i18n="perk1"><strong>Neobmedzené životy</strong> – hraj bez čakania</span></li>
+        <li>👔 <span data-i18n="perk2"><strong>Režim Prezident Klubu & VIP Legendy</strong> odomknuté</span></li>
+        <li>🕵️ <span data-i18n="perk3"><strong>Nekonečný Detektív prestupov</strong> bez denného limitu</span></li>
+        <li>📺 <span data-i18n="perk4"><strong>VAR 50/50 a Röntgen zadarmo</strong> v každej hre</span></li>
+        <li>🪙 <span data-i18n="perk5"><strong>2× viac mincí</strong>, zlatý VIP odznak a <strong>0 reklám</strong></span></li>
+      </ul>
+
+      <div id="vipPurchaseSection">
+        <a id="stripeBuyLink" href="#" target="_blank" class="btn-stripe" onclick="handleStripeClick(event)">
+          👑 <span data-i18n="buyVipBtn">KÚPIŤ VIP NAVŽDY – 2,99 €</span>
+        </a>
+
+        <div class="code-box">
+          <label for="vipCodeInput" data-i18n="haveCode">Máš VIP aktivačný kód? (Testovací kód: FUTBALVIP2026)</label>
+          <div class="guess-row" style="margin-top:0;">
+            <input type="text" id="vipCodeInput" class="guess-input" style="padding:8px 10px; font-size:0.86rem;" placeholder="FUTBALVIP2026" />
+            <button class="btn-primary" style="padding:8px 14px;" onclick="redeemVipCode()" data-i18n="activateBtn">Aktivovať</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="vipActiveNotice" style="display:none; text-align:center; padding:12px; background:rgba(16,185,129,0.16); border:1px solid var(--green); border-radius:12px; margin-bottom:16px; color:#6ee7b7; font-weight:800;">
+        ✅ Tvoje VIP členstvo je AKTÍVNE! Všetky výhody sú odomknuté.
+      </div>
+
+      <h4 style="margin-bottom:10px; font-size:0.95rem;" data-i18n="coinShopTitle">🪙 Herný obchod (za nazbierané mince)</h4>
+      <div class="shop-grid">
+        <div class="shop-item">
+          <div style="font-size:1.3rem;">❤️❤️❤️</div>
+          <div style="font-weight:800; font-size:0.86rem;" data-i18n="refillHearts">Doplniť životy</div>
+          <button onclick="buyHeartsWithCoins()">50 🪙</button>
+        </div>
+        <div class="shop-item">
+          <div style="font-size:1.3rem;">🕵️ +3</div>
+          <div style="font-weight:800; font-size:0.86rem;" data-i18n="extraDet">Extra Detektív pokusy</div>
+          <button onclick="buyDetectivePlays()">60 🪙</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. NASTAVENIA PLATOBNEJ BRÁNY STRIPE A VIP KÓDOV
+    // =========================================================================
+    // Sem vlož svoj skutočný Stripe Payment Link (v Stripe nastav presmerovanie po platbe na: tvoja-adresa.sk/?vip=aktivovane)
+    const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_goalmaster_vip";
+    const VALID_VIP_CODES = ["FUTBALVIP2026", "GOALMASTER2026", "VIPPRO"];
+
+    // =========================================================================
+    // 2. PREKLADY PRE 12 JAZYKOV (SK, CZ, EN, ES, DE, FR, IT, PT, PL, TR, NL, HR)
+    // =========================================================================
+    const UI_TRANSLATIONS = {
+      sk: {
+        rankLabel: "Hodnosť:", streakLabel: "Séria:", solvedLabel: "Vyriešené:",
+        chooseMode: "Vyber si herný režim", badgeFree: "ZADARMO", playNow: "Hrať teraz", unlockVip: "Odomknúť VIP",
+        m1Title: "Klasický Futbalový Kvíz", m1Desc: "Liga majstrov, Premier League, MS, SK/CZ futbal a VIP kategória Futbalové legendy.",
+        m2Title: "Kto som? Detektív prestupov", m2Desc: "Uhádni futbalistu podľa časovej osi klubov, rokov a prestupových súm.",
+        m3Title: "Vyššie alebo Nižšie", m3Desc: "Ktorý hráč strelil v kariére viac gólov alebo mal vyššiu trhovú hodnotu v €?",
+        m4Title: "Prezident Klubu: Áno / Nie", m4Desc: "Veď futbalový veľkoklub! Rozhoduj o prestupoch, škandáloch a financiách bez vyhadzovu.",
+        backMenu: "Späť do menu", catAll: "Všetky ligy", nextBtn: "Ďalšia otázka →",
+        attemptsLeft: "Pokusy:", detPrompt: "Ktorý futbalista má takúto kariéru?", detSub: "Každý chybný tip odhalí novú indíciu.",
+        guessBtn: "Tipnúť", nextPlayerBtn: "Ďalší hráč →", hlStreak: "Aktuálna séria:",
+        higherBtn: "VYŠŠIE", lowerBtn: "NIŽŠIE", weekLabel: "Týždeň vo funkcii:",
+        mMoney: "Peniaze", mFans: "Fanúšikovia", mSquad: "Kabína", mBoard: "Vedenie",
+        noBtn: "NIE / ODMIETNUŤ", yesBtn: "ÁNO / SCHVÁLIŤ", restartClub: "Začať novú sezónu",
+        removeAds: "Vypnúť reklamy (VIP)", vipSub: "Odomkni plný potenciál hry jednorazovo a navždy!",
+        perk1: "Neobmedzené životy – hraj bez čakania", perk2: "Režim Prezident Klubu & VIP Legendy odomknuté",
+        perk3: "Nekonečný Detektív prestupov bez denného limitu", perk4: "VAR 50/50 a Röntgen zadarmo v každej hre",
+        perk5: "2× viac mincí, zlatý VIP odznak a 0 reklám", buyVipBtn: "KÚPIŤ VIP NAVŽDY – 2,99 €",
+        haveCode: "Máš VIP aktivačný kód? (Testovací kód: FUTBALVIP2026)", activateBtn: "Aktivovať",
+        coinShopTitle: "Herný obchod (za nazbierané mince)", refillHearts: "Doplniť životy", extraDet: "Extra Detektív pokusy",
+        ranks: ["Dorastenec", "Amatér", "Ligový hráč", "Reprezentant", "Kapitán", "Legenda", "Zlatá lopta"]
+      },
+      cz: {
+        rankLabel: "Hodnost:", streakLabel: "Série:", solvedLabel: "Vyřešeno:",
+        chooseMode: "Vyber si herní režim", badgeFree: "ZDARMA", playNow: "Hrát teď", unlockVip: "Odemknout VIP",
+        m1Title: "Klasický Fotbalový Kvíz", m1Desc: "Liga mistrů, Premier League, MS, SK/CZ fotbal a VIP kategorie Fotbalové legendy.",
+        m2Title: "Kdo jsem? Detektiv přestupů", m2Desc: "Uhodni fotbalistu podle časové osy klubů, let a přestupových částek.",
+        m3Title: "Vyšší nebo Nižší", m3Desc: "Který hráč vstřelil v kariéře více gólů nebo měl vyšší tržní hodnotu v €?",
+        m4Title: "Prezident Klubu: Ano / Ne", m4Desc: "Veď fotbalový velkoklub! Rozhoduj o přestupech, skandálech a financích.",
+        backMenu: "Zpět do menu", catAll: "Všechny ligy", nextBtn: "Další otázka →",
+        attemptsLeft: "Pokusy:", detPrompt: "Který fotbalista má takovou kariéru?", detSub: "Každý chybný tip odhalí novou indicii.",
+        guessBtn: "Tipnout", nextPlayerBtn: "Další hráč →", hlStreak: "Aktuální série:",
+        higherBtn: "VYŠŠÍ", lowerBtn: "NIŽŠÍ", weekLabel: "Týden ve funkci:",
+        mMoney: "Peníze", mFans: "Fanoušci", mSquad: "Kabina", mBoard: "Vedení",
+        noBtn: "NE / ODMÍTNOUT", yesBtn: "ANO / SCHVÁLIT", restartClub: "Začít novou sezónu",
+        removeAds: "Vypnout reklamy (VIP)", vipSub: "Odemkni plný potenciál hry jednorázově a navždy!",
+        perk1: "Neomezené životy – hraj bez čekání", perk2: "Režim Prezident Klubu & VIP Legendy odemčeny",
+        perk3: "Nekonečný Detektiv přestupů bez denního limitu", perk4: "VAR 50/50 a Rentgen zdarma v každé hře",
+        perk5: "2× více mincí, zlatý VIP odznak a 0 reklam", buyVipBtn: "KOUPIT VIP NAVŽDY – 2,99 €",
+        haveCode: "Máš VIP aktivační kód? (Testovací kód: FUTBALVIP2026)", activateBtn: "Aktivovat",
+        coinShopTitle: "Herní obchod (za nasbírané mince)", refillHearts: "Doplnit životy", extraDet: "Extra Detektiv pokusy",
+        ranks: ["Dorostenec", "Amatér", "Ligový hráč", "Reprezentant", "Kapitán", "Legenda", "Zlatý míč"]
+      },
+      en: {
+        rankLabel: "Rank:", streakLabel: "Streak:", solvedLabel: "Solved:",
+        chooseMode: "Choose Game Mode", badgeFree: "FREE", playNow: "Play Now", unlockVip: "Unlock VIP",
+        m1Title: "Classic Football Quiz", m1Desc: "Champions League, Premier League, World Cup, SK/CZ & VIP Legends category.",
+        m2Title: "Who Am I? Transfer Detective", m2Desc: "Guess the footballer from their career timeline, years, and transfer fees.",
+        m3Title: "Higher or Lower", m3Desc: "Which player scored more career goals or had a higher peak market value in €?",
+        m4Title: "Club President: Yes / No", m4Desc: "Run a top football club! Make tough calls on transfers, scandals, and finances.",
+        backMenu: "Back to Menu", catAll: "All Leagues", nextBtn: "Next Question →",
+        attemptsLeft: "Attempts:", detPrompt: "Which footballer has this career path?", detSub: "Every wrong guess reveals a new clue.",
+        guessBtn: "Guess", nextPlayerBtn: "Next Player →", hlStreak: "Current Streak:",
+        higherBtn: "HIGHER", lowerBtn: "LOWER", weekLabel: "Weeks in office:",
+        mMoney: "Finances", mFans: "Fans", mSquad: "Squad", mBoard: "Board",
+        noBtn: "NO / REJECT", yesBtn: "YES / APPROVE", restartClub: "Start New Season",
+        removeAds: "Remove Ads (VIP)", vipSub: "Unlock the full game forever with a single upgrade!",
+        perk1: "Unlimited Hearts – play without waiting", perk2: "Club President Mode & VIP Legends unlocked",
+        perk3: "Unlimited Transfer Detective with no daily cap", perk4: "Free VAR 50/50 & X-Ray hints in every match",
+        perk5: "2× Coins earned, Gold VIP badge & Zero Ads", buyVipBtn: "UNLOCK VIP FOREVER – €2.99",
+        haveCode: "Have a VIP activation code? (Test code: FUTBALVIP2026)", activateBtn: "Activate",
+        coinShopTitle: "In-Game Shop (use earned coins)", refillHearts: "Refill Hearts", extraDet: "Extra Detective Runs",
+        ranks: ["Academy Youth", "Amateur", "League Pro", "International", "Club Captain", "Club Legend", "Ballon d'Or"]
+      },
+      es: {
+        rankLabel: "Rango:", streakLabel: "Racha:", solvedLabel: "Resueltos:",
+        chooseMode: "Elige modo de juego", badgeFree: "GRATIS", playNow: "Jugar ahora", unlockVip: "Desbloquear VIP",
+        m1Title: "Quiz Clásico de Fútbol", m1Desc: "Champions League, Premier League, Mundial y categoría VIP Leyendas.",
+        m2Title: "¿Quién soy? Detective de Fichajes", m2Desc: "Adivina el futbolista por su historial de clubes, años y precios de traspaso.",
+        m3Title: "Mayor o Menor", m3Desc: "¿Qué jugador marcó más goles en su carrera o tuvo mayor valor de mercado?",
+        m4Title: "Presidente del Club: Sí / No", m4Desc: "¡Dirige un club gigante! Decide sobre fichajes, escándalos y finanzas.",
+        backMenu: "Volver al menú", catAll: "Todas las ligas", nextBtn: "Siguiente pregunta →",
+        attemptsLeft: "Intentos:", detPrompt: "¿Qué futbolista tiene esta trayectoria?", detSub: "Cada fallo revela una pista nueva.",
+        guessBtn: "Adivinar", nextPlayerBtn: "Siguiente jugador →", hlStreak: "Racha actual:",
+        higherBtn: "MAYOR", lowerBtn: "MENOR", weekLabel: "Semanas en el cargo:",
+        mMoney: "Dinero", mFans: "Afición", mSquad: "Vestuario", mBoard: "Directiva",
+        noBtn: "NO / RECHAZAR", yesBtn: "SÍ / APROBAR", restartClub: "Nueva temporada",
+        removeAds: "Quitar anuncios (VIP)", vipSub: "¡Desbloquea todo el juego para siempre!",
+        perk1: "Vidas ilimitadas – juega sin esperar", perk2: "Modo Presidente y Leyendas VIP desbloqueados",
+        perk3: "Detective de Fichajes ilimitado", perk4: "Pistas VAR 50/50 y Rayos-X gratis",
+        perk5: "2× Monedas, insignia VIP dorada y 0 anuncios", buyVipBtn: "COMPRAR VIP – 2,99 €",
+        haveCode: "¿Tienes un código VIP? (Código: FUTBALVIP2026)", activateBtn: "Activar",
+        coinShopTitle: "Tienda del juego", refillHearts: "Recargar vidas", extraDet: "Intentos extra Detective",
+        ranks: ["Canterano", "Amateur", "Profesional", "Internacional", "Capitán", "Leyenda", "Balón de Oro"]
+      },
+      de: {
+        rankLabel: "Rang:", streakLabel: "Serie:", solvedLabel: "Gelöst:",
+        chooseMode: "Spielmodus wählen", badgeFree: "GRATIS", playNow: "Jetzt spielen", unlockVip: "VIP freischalten",
+        m1Title: "Klassisches Fußball-Quiz", m1Desc: "Champions League, Premier League, WM & VIP-Legenden.",
+        m2Title: "Wer bin ich? Transfer-Detektiv", m2Desc: "Errate den Spieler anhand seiner Vereine, Jahre und Ablösesummen.",
+        m3Title: "Höher oder Niedriger", m3Desc: "Welcher Spieler erzielte mehr Karrieretore oder hatte den höheren Marktwert?",
+        m4Title: "Vereinspräsident: Ja / Nein", m4Desc: "Leite einen Topklub! Entscheide über Transfers, Skandale und Finanzen.",
+        backMenu: "Zurück zum Menü", catAll: "Alle Ligen", nextBtn: "Nächste Frage →",
+        attemptsLeft: "Versuche:", detPrompt: "Welcher Fußballer hat diese Karriere?", detSub: "Jeder Fehlversuch enthüllt einen Hinweis.",
+        guessBtn: "Raten", nextPlayerBtn: "Nächster Spieler →", hlStreak: "Aktuelle Serie:",
+        higherBtn: "HÖHER", lowerBtn: "NIEDRIGER", weekLabel: "Wochen im Amt:",
+        mMoney: "Finanzen", mFans: "Fans", mSquad: "Kabine", mBoard: "Vorstand",
+        noBtn: "NEIN / ABLEHNEN", yesBtn: "JA / ZUSTIMMEN", restartClub: "Neue Saison starten",
+        removeAds: "Werbung entfernen (VIP)", vipSub: "Schalte das komplette Spiel dauerhaft frei!",
+        perk1: "Unbegrenzte Leben ohne Wartezeit", perk2: "Präsidenten-Modus & VIP-Legenden frei",
+        perk3: "Unbegrenzter Transfer-Detektiv", perk4: "Gratis VAR 50/50 & Röntgen-Hinweise",
+        perk5: "2× Münzen, Gold-VIP-Abzeichen & keine Werbung", buyVipBtn: "VIP KAUFEN – 2,99 €",
+        haveCode: "VIP-Code vorhanden? (Testcode: FUTBALVIP2026)", activateBtn: "Aktivieren",
+        coinShopTitle: "Spiel-Shop", refillHearts: "Leben auffüllen", extraDet: "Extra Detektiv-Runden",
+        ranks: ["Jugendspieler", "Amateur", "Ligaprofi", "Nationalspieler", "Kapitän", "Legende", "Ballon d'Or"]
+      },
+      fr: {
+        rankLabel: "Rang:", streakLabel: "Série:", solvedLabel: "Résolus:",
+        chooseMode: "Choisis un mode de jeu", badgeFree: "GRATUIT", playNow: "Jouer", unlockVip: "Débloquer VIP",
+        m1Title: "Quiz Football Classique", m1Desc: "Ligue des Champions, Premier League, Coupe du Monde et Légendes VIP.",
+        m2Title: "Qui suis-je ? Détective Transferts", m2Desc: "Devine le joueur grâce à son parcours, ses clubs et ses indemnités.",
+        m3Title: "Plus ou Moins", m3Desc: "Quel joueur a marqué le plus de buts ou avait la plus grande valeur marchande ?",
+        m4Title: "Président de Club : Oui / Non", m4Desc: "Dirige un grand club ! Gère les transferts, scandales et finances.",
+        backMenu: "Retour au menu", catAll: "Toutes ligues", nextBtn: "Question suivante →",
+        attemptsLeft: "Essais:", detPrompt: "Quel footballeur a cette carrière ?", detSub: "Chaque erreur révèle un indice.",
+        guessBtn: "Valider", nextPlayerBtn: "Joueur suivant →", hlStreak: "Série actuelle:",
+        higherBtn: "PLUS HAUT", lowerBtn: "PLUS BAS", weekLabel: "Semaines en poste:",
+        mMoney: "Finances", mFans: "Supporters", mSquad: "Vestiaire", mBoard: "Direction",
+        noBtn: "NON / REFUSER", yesBtn: "OUI / ACCEPTER", restartClub: "Nouvelle saison",
+        removeAds: "Supprimer pubs (VIP)", vipSub: "Débloque tout le jeu à vie !",
+        perk1: "Vies illimitées sans attente", perk2: "Mode Président & Légendes VIP débloqués",
+        perk3: "Détective Transferts illimité", perk4: "Indices VAR 50/50 et Rayon-X gratuits",
+        perk5: "2× Pièces, badge VIP or et 0 publicité", buyVipBtn: "ACHETER VIP – 2,99 €",
+        haveCode: "Code VIP ? (Code test : FUTBALVIP2026)", activateBtn: "Activer",
+        coinShopTitle: "Boutique du jeu", refillHearts: "Recharger vies", extraDet: "Essais Détective bonus",
+        ranks: ["Junior", "Amateur", "Pro", "International", "Capitaine", "Légende", "Ballon d'Or"]
+      },
+      it: {
+        rankLabel: "Grado:", streakLabel: "Serie:", solvedLabel: "Risolti:",
+        chooseMode: "Scegli modalità di gioco", badgeFree: "GRATIS", playNow: "Gioca ora", unlockVip: "Sblocca VIP",
+        m1Title: "Quiz Calcistico Classico", m1Desc: "Champions League, Premier League, Mondiali e Leggende VIP.",
+        m2Title: "Chi sono? Detective Trasferimenti", m2Desc: "Indovina il calciatore dai club, anni e costi di trasferimento.",
+        m3Title: "Più o Meno", m3Desc: "Chi ha segnato più gol in carriera o aveva il valore di mercato più alto?",
+        m4Title: "Presidente del Club: Sì / No", m4Desc: "Guida un top club! Decidi su mercato, scandali e finanze.",
+        backMenu: "Torna al menu", catAll: "Tutti i campionati", nextBtn: "Prossima domanda →",
+        attemptsLeft: "Tentativi:", detPrompt: "Quale calciatore ha questa carriera?", detSub: "Ogni errore svela un nuovo indizio.",
+        guessBtn: "Indovina", nextPlayerBtn: "Prossimo giocatore →", hlStreak: "Serie attuale:",
+        higherBtn: "PIÙ ALTO", lowerBtn: "PIÙ BASSO", weekLabel: "Settimane in carica:",
+        mMoney: "Finanze", mFans: "Tifosi", mSquad: "Spogliatoio", mBoard: "Dirigenza",
+        noBtn: "NO / RIFIUTA", yesBtn: "SÌ / APPROVA", restartClub: "Nuova stagione",
+        removeAds: "Rimuovi pubblicità (VIP)", vipSub: "Sblocca tutto il gioco per sempre!",
+        perk1: "Vite illimitate senza attese", perk2: "Modalità Presidente e Leggende VIP sbloccate",
+        perk3: "Detective Trasferimenti illimitato", perk4: "Aiuti VAR 50/50 e Raggi-X gratis",
+        perk5: "2× Monete, badge VIP oro e zero pubblicità", buyVipBtn: "ACQUISTA VIP – 2,99 €",
+        haveCode: "Hai un codice VIP? (Test: FUTBALVIP2026)", activateBtn: "Attiva",
+        coinShopTitle: "Negozio di gioco", refillHearts: "Ricarica vite", extraDet: "Partite Detective extra",
+        ranks: ["Primavera", "Dilettante", "Professionista", "Nazionale", "Capitano", "Leggenda", "Pallone d'Oro"]
+      },
+      pt: {
+        rankLabel: "Nível:", streakLabel: "Sequência:", solvedLabel: "Resolvidos:",
+        chooseMode: "Escolha o modo de jogo", badgeFree: "GRÁTIS", playNow: "Jogar agora", unlockVip: "Desbloquear VIP",
+        m1Title: "Quiz Clássico de Futebol", m1Desc: "Champions League, Premier League, Copa do Mundo e Lendas VIP.",
+        m2Title: "Quem sou eu? Detetive de Transferências", m2Desc: "Adivinhe o jogador pelo histórico de clubes, anos e valores.",
+        m3Title: "Maior ou Menor", m3Desc: "Qual jogador marcou mais gols na carreira ou teve maior valor de mercado?",
+        m4Title: "Presidente do Clube: Sim / Não", m4Desc: "Comande um gigante! Decida sobre contratações, crises e finanças.",
+        backMenu: "Voltar ao menu", catAll: "Todas as ligas", nextBtn: "Próxima pergunta →",
+        attemptsLeft: "Tentativas:", detPrompt: "Qual jogador tem esta carreira?", detSub: "Cada erro revela uma nova dica.",
+        guessBtn: "Palpitar", nextPlayerBtn: "Próximo jogador →", hlStreak: "Sequência atual:",
+        higherBtn: "MAIOR", lowerBtn: "MENOR", weekLabel: "Semanas no cargo:",
+        mMoney: "Finanças", mFans: "Torcida", mSquad: "Elenco", mBoard: "Diretoria",
+        noBtn: "NÃO / RECUSAR", yesBtn: "SIM / APROVAR", restartClub: "Nova temporada",
+        removeAds: "Remover anúncios (VIP)", vipSub: "Desbloqueie o jogo completo para sempre!",
+        perk1: "Vidas ilimitadas sem espera", perk2: "Modo Presidente e Lendas VIP liberados",
+        perk3: "Detetive de Transferências ilimitado", perk4: "Dicas VAR 50/50 e Raio-X grátis",
+        perk5: "2× Moedas, emblema VIP ouro e sem anúncios", buyVipBtn: "COMPRAR VIP – 2,99 €",
+        haveCode: "Tem código VIP? (Teste: FUTBALVIP2026)", activateBtn: "Ativar",
+        coinShopTitle: "Loja do jogo", refillHearts: "Recarregar vidas", extraDet: "Tentativas extras Detetive",
+        ranks: ["Base", "Amador", "Profissional", "Seleção", "Capitão", "Lenda", "Bola de Ouro"]
+      },
+      pl: {
+        rankLabel: "Ranga:", streakLabel: "Seria:", solvedLabel: "Rozwiązane:",
+        chooseMode: "Wybierz tryb gry", badgeFree: "DARMOWE", playNow: "Graj teraz", unlockVip: "Odblokuj VIP",
+        m1Title: "Klasyczny Quiz Piłkarski", m1Desc: "Liga Mistrzów, Premier League, MŚ i kategoria VIP Legendy.",
+        m2Title: "Kim jestem? Detektyw Transferowy", m2Desc: "Odgadnij piłkarza po historii klubów, latach i kwotach transferów.",
+        m3Title: "Wyżej czy Niżej", m3Desc: "Który piłkarz strzelił więcej goli w karierze lub miał wyższą wartość rynkową?",
+        m4Title: "Prezes Klubu: Tak / Nie", m4Desc: "Zarządzaj wielkim klubem! Podejmuj decyzje o transferach i finansach.",
+        backMenu: "Powrót do menu", catAll: "Wszystkie ligi", nextBtn: "Następne pytanie →",
+        attemptsLeft: "Próby:", detPrompt: "Który piłkarz ma taką karierę?", detSub: "Każdy błąd odkrywa nową wskazówkę.",
+        guessBtn: "Zgaduj", nextPlayerBtn: "Następny gracz →", hlStreak: "Aktualna seria:",
+        higherBtn: "WYŻEJ", lowerBtn: "NIŻEJ", weekLabel: "Tygodnie na stanowisku:",
+        mMoney: "Finanse", mFans: "Kibice", mSquad: "Szatnia", mBoard: "Zarząd",
+        noBtn: "NIE / ODRZUĆ", yesBtn: "TAK / ZATWIERDŹ", restartClub: "Nowy sezon",
+        removeAds: "Wyłącz reklamy (VIP)", vipSub: "Odblokuj pełną wersję gry na zawsze!",
+        perk1: "Nielimitowane życia bez czekania", perk2: "Tryb Prezesa i VIP Legendy odblokowane",
+        perk3: "Nielimitowany Detektyw Transferowy", perk4: "Darmowe podpowiedzi VAR 50/50 i Rentgen",
+        perk5: "2× Monety, złota odznaka VIP i zero reklam", buyVipBtn: "KUP VIP NA ZAWSZE – 2,99 €",
+        haveCode: "Masz kod VIP? (Kod testowy: FUTBALVIP2026)", activateBtn: "Aktywuj",
+        coinShopTitle: "Sklep w grze", refillHearts: "Uzupełnij życia", extraDet: "Dodatkowe gry Detektywa",
+        ranks: ["Junior", "Amator", "Ligowiec", "Reprezentant", "Kapitan", "Legenda", "Złota Piłka"]
+      },
+      tr: {
+        rankLabel: "Rütbe:", streakLabel: "Seri:", solvedLabel: "Çözülen:",
+        chooseMode: "Oyun Modunu Seç", badgeFree: "ÜCRETSİZ", playNow: "Şimdi Oyna", unlockVip: "VIP Aç",
+        m1Title: "Klasik Futbol Bilgi Yarışması", m1Desc: "Şampiyonlar Ligi, Premier Lig, Dünya Kupası ve VIP Efsaneler.",
+        m2Title: "Ben Kimim? Transfer Dedektifi", m2Desc: "Kulüp geçmişi, yıllar ve bonservis bedellerinden futbolcuyu tahmin et.",
+        m3Title: "Daha Yüksek veya Daha Düşük", m3Desc: "Hangi oyuncu kariyerinde daha fazla gol attı veya piyasa değeri daha yüksekti?",
+        m4Title: "Kulüp Başkanı: Evet / Hayır", m4Desc: "Dev bir kulübü yönet! Transferler, krizler ve bütçe kararları al.",
+        backMenu: "Menüye Dön", catAll: "Tüm Ligler", nextBtn: "Sonraki Soru →",
+        attemptsLeft: "Hak:", detPrompt: "Bu kariyere sahip futbolcu kim?", detSub: "Her yanlış tahminde yeni bir ipucu açılır.",
+        guessBtn: "Tahmin Et", nextPlayerBtn: "Sonraki Oyuncu →", hlStreak: "Mevcut Seri:",
+        higherBtn: "DAHA YÜKSEK", lowerBtn: "DAHA DÜŞÜK", weekLabel: "Görevdeki hafta:",
+        mMoney: "Bütçe", mFans: "Taraftar", mSquad: "Soyunma Odası", mBoard: "Yönetim",
+        noBtn: "HAYIR / REDDET", yesBtn: "EVET / ONAYLA", restartClub: "Yeni Sezon Başlat",
+        removeAds: "Reklamları Kaldır (VIP)", vipSub: "Oyunun tüm özelliklerini sonsuza dek aç!",
+        perk1: "Sınırsız can – beklemeden oyna", perk2: "Kulüp Başkanı Modu ve VIP Efsaneler açık",
+        perk3: "Sınırsız Transfer Dedektifi", perk4: "Ücretsiz VAR 50/50 ve Röntgen ipuçları",
+        perk5: "2× Altın, Altın VIP rozeti ve sıfır reklam", buyVipBtn: "VIP SATIN AL – 2,99 €",
+        haveCode: "VIP kodun var mı? (Test kodu: FUTBALVIP2026)", activateBtn: "Etkinleştir",
+        coinShopTitle: "Oyun Mağazası", refillHearts: "Canları Doldur", extraDet: "Ekstra Dedektif Hakkı",
+        ranks: ["Altyapı", "Amatör", "Lig Oyuncusu", "Milli Oyuncu", "Kaptan", "Efsane", "Ballon d'Or"]
+      },
+      nl: {
+        rankLabel: "Rang:", streakLabel: "Reeks:", solvedLabel: "Opgelost:",
+        chooseMode: "Kies spelmodus", badgeFree: "GRATIS", playNow: "Nu spelen", unlockVip: "VIP ontgrendelen",
+        m1Title: "Klassieke Voetbalquiz", m1Desc: "Champions League, Premier League, WK & VIP Legendes.",
+        m2Title: "Wie ben ik? Transfer Detective", m2Desc: "Raad de voetballer op basis van clubs, jaren en transfersommen.",
+        m3Title: "Hoger of Lager", m3Desc: "Welke speler scoorde meer goals of had een hogere marktwaarde?",
+        m4Title: "Clubpresident: Ja / Nee", m4Desc: "Leid een topclub! Beslis over transfers, schandalen en financiën.",
+        backMenu: "Terug naar menu", catAll: "Alle competities", nextBtn: "Volgende vraag →",
+        attemptsLeft: "Pogingen:", detPrompt: "Welke voetballer heeft deze carrière?", detSub: "Elke foute gok onthult een nieuwe hint.",
+        guessBtn: "Gokken", nextPlayerBtn: "Volgende speler →", hlStreak: "Huidige reeks:",
+        higherBtn: "HOGER", lowerBtn: "LAGER", weekLabel: "Weken in functie:",
+        mMoney: "Financiën", mFans: "Fans", mSquad: "Kleedkamer", mBoard: "Bestuur",
+        noBtn: "NEE / WEIGEREN", yesBtn: "JA / GOEDKEUREN", restartClub: "Nieuw seizoen",
+        removeAds: "Reclame verwijderen (VIP)", vipSub: "Ontgrendel het volledige spel voor altijd!",
+        perk1: "Onbeperkte levens zonder wachten", perk2: "Clubpresident & VIP Legendes ontgrendeld",
+        perk3: "Onbeperkte Transfer Detective", perk4: "Gratis VAR 50/50 & Röntgen-hints",
+        perk5: "2× Munten, gouden VIP-badge & geen reclame", buyVipBtn: "KOOP VIP – € 2,99",
+        haveCode: "VIP-code? (Testcode: FUTBALVIP2026)", activateBtn: "Activeren",
+        coinShopTitle: "Spelwinkel", refillHearts: "Levens aanvullen", extraDet: "Extra Detective-rondes",
+        ranks: ["Jeugdspeler", "Amateur", "Prof", "International", "Aanvoerder", "Legende", "Ballon d'Or"]
+      },
+      hr: {
+        rankLabel: "Rang:", streakLabel: "Niz:", solvedLabel: "Riješeno:",
+        chooseMode: "Odaberi način igre", badgeFree: "BESPLATNO", playNow: "Igraj sada", unlockVip: "Otključaj VIP",
+        m1Title: "Klasični Nogometni Kviz", m1Desc: "Liga prvaka, Premier League, SP i VIP kategorija Legende.",
+        m2Title: "Tko sam ja? Detektiv transfera", m2Desc: "Pogodi nogometaša po klubovima, godinama i iznosima transfera.",
+        m3Title: "Više ili Niže", m3Desc: "Koji je igrač zabio više golova u karijeri ili imao veću tržišnu vrijednost?",
+        m4Title: "Predsjednik Kluba: Da / Ne", m4Desc: "Vodi nogometni velikan! Odlučuj o transferima, skandalima i financijama.",
+        backMenu: "Natrag u izbornik", catAll: "Sve lige", nextBtn: "Sljedeće pitanje →",
+        attemptsLeft: "Pokušaji:", detPrompt: "Koji nogometaš ima ovakvu karijeru?", detSub: "Svaki pogrešan pokušaj otkriva novi trag.",
+        guessBtn: "Pogodi", nextPlayerBtn: "Sljedeći igrač →", hlStreak: "Trenutni niz:",
+        higherBtn: "VIŠE", lowerBtn: "NIŽE", weekLabel: "Tjedni na funkciji:",
+        mMoney: "Financije", mFans: "Navijači", mSquad: "Svlačionica", mBoard: "Uprava",
+        noBtn: "NE / ODBIJ", yesBtn: "DA / ODOBRI", restartClub: "Nova sezona",
+        removeAds: "Ukloni reklame (VIP)", vipSub: "Otključaj cijelu igru zauvijek!",
+        perk1: "Neograničeni životi bez čekanja", perk2: "Predsjednik Kluba i VIP Legende otključani",
+        perk3: "Neograničeni Detektiv transfera", perk4: "Besplatni VAR 50/50 i Rendgen tragovi",
+        perk5: "2× Novčića, zlatna VIP značka i 0 reklama", buyVipBtn: "KUPI VIP ZAUVIJEK – 2,99 €",
+        haveCode: "Imaš VIP kod? (Test kod: FUTBALVIP2026)", activateBtn: "Aktiviraj",
+        coinShopTitle: "Trgovina u igri", refillHearts: "Dopuni živote", extraDet: "Dodatni Detektiv pokušaji",
+        ranks: ["Kadet", "Amater", "Prvoligaš", "Reprezentativac", "Kapetan", "Legenda", "Zlatna lopta"]
+      }
+    };
+
+    // =========================================================================
+    // 3. WEB AUDIO API SYNTETICKÉ ZVUKY (BEZ EXTERNÝCH SÚBOROV)
+    // =========================================================================
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq, type, duration, delay = 0) {
+      if (!state.sound) return;
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + delay);
+      osc.stop(audioCtx.currentTime + delay + duration);
+    }
+    function playClick() { playTone(520, "sine", 0.06); }
+    function playSuccess() { playTone(523.25, "triangle", 0.12, 0); playTone(659.25, "triangle", 0.12, 0.1); playTone(783.99, "triangle", 0.25, 0.2); }
+    function playError() { playTone(200, "sawtooth", 0.18, 0); playTone(150, "sawtooth", 0.25, 0.14); }
+    function playVipSound() { playTone(587.33, "sine", 0.12, 0); playTone(783.99, "sine", 0.12, 0.1); playTone(1046.5, "sine", 0.35, 0.2); }
+
+    // =========================================================================
+    // 4. STAV HRÁČA (LOCALSTORAGE) A VIP LOGIKA
+    // =========================================================================
+    const defaultState = {
+      lang: "sk",
+      coins: 150,
+      xp: 0,
+      streak: 0,
+      solved: 0,
+      hearts: 3,
+      detectiveLeft: 3,
+      lastResetDate: new Date().toDateString(),
+      isVip: false,
+      sound: true
+    };
+
+    let state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem("goalmaster_pro_v1") || "{}"));
+
+    // Denný reset bezplatných pokusov
+    const todayStr = new Date().toDateString();
+    if (state.lastResetDate !== todayStr) {
+      state.lastResetDate = todayStr;
+      state.hearts = 3;
+      state.detectiveLeft = 3;
+    }
+
+    // Automatická detekcia jazyka pri prvom spustení
+    if (!localStorage.getItem("goalmaster_pro_v1")) {
+      const browserLang = (navigator.language || "sk").slice(0, 2).toLowerCase();
+      if (UI_TRANSLATIONS[browserLang]) state.lang = browserLang;
+    }
+
+    // Kontrola návratu zo Stripe platby (?vip=aktivovane)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("vip") === "aktivovane") {
+      state.isVip = true;
+      window.history.replaceState({}, document.title, window.location.pathname);
+      setTimeout(() => { playVipSound(); alert("👑 Ďakujeme! Tvoje GoalMaster VIP členstvo bolo úspešne aktivované!"); }, 400);
+    }
+
+    function saveState() {
+      localStorage.setItem("goalmaster_pro_v1", JSON.stringify(state));
+      updateUI();
+    }
+
+    function updateUI() {
+      const t = UI_TRANSLATIONS[state.lang] || UI_TRANSLATIONS.sk;
+      document.body.classList.toggle("is-vip", state.isVip);
+      document.getElementById("langSelect").value = state.lang;
+      document.getElementById("soundBtn").textContent = state.sound ? "🔊" : "🔇";
+      document.getElementById("coinsText").textContent = state.coins;
+      document.getElementById("heartsText").textContent = state.isVip ? "∞" : `${state.hearts}/3`;
+      document.getElementById("streakText").textContent = state.streak;
+      document.getElementById("solvedText").textContent = state.solved;
+
+      // Hodnosť a XP
+      const level = Math.min(t.ranks.length - 1, Math.floor(state.xp / 200));
+      const nextLevelXp = (level + 1) * 200;
+      const pct = Math.min(100, ((state.xp % 200) / 200) * 100);
+      document.getElementById("rankName").textContent = t.ranks[level];
+      document.getElementById("xpText").textContent = `${state.xp} / ${nextLevelXp} XP`;
+      document.getElementById("xpFill").style.width = `${pct}%`;
+
+      // Odznaky kariet na domovskej obrazovke
+      document.getElementById("detectiveBadge").textContent = state.isVip ? "👑 UNLIMITED" : `${state.detectiveLeft}/3 FREE`;
+      const presCard = document.getElementById("presidentCard");
+      if (state.isVip) {
+        presCard.classList.remove("vip-locked");
+        document.getElementById("presidentBadge").textContent = "👑 VIP AKTÍVNE";
+        document.getElementById("presidentCta").textContent = t.playNow;
+      } else {
+        presCard.classList.add("vip-locked");
+        document.getElementById("presidentBadge").textContent = "👑 VIP EXKLUZÍVNE";
+        document.getElementById("presidentCta").textContent = t.unlockVip;
+      }
+
+      // Ceny nápovedí
+      document.getElementById("varCostText").textContent = state.isVip ? "FREE (VIP)" : "30 🪙";
+      document.getElementById("xrayCostText").textContent = state.isVip ? "FREE (VIP)" : "40 🪙";
+
+      // VIP Modal stav
+      document.getElementById("vipPurchaseSection").style.display = state.isVip ? "none" : "block";
+      document.getElementById("vipActiveNotice").style.display = state.isVip ? "block" : "none";
+      document.getElementById("stripeBuyLink").href = STRIPE_PAYMENT_LINK;
+
+      // Preklad všetkých data-i18n prvkov
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (t[key]) el.textContent = t[key];
+      });
+    }
+
+    function changeLanguage(lang) {
+      playClick();
+      state.lang = lang;
+      saveState();
+    }
+
+    function toggleSound() {
+      state.sound = !state.sound;
+      if (state.sound) playClick();
+      saveState();
+    }
+
+    function addReward(baseCoins, baseXp) {
+      const mult = state.isVip ? 2 : 1;
+      state.coins += baseCoins * mult;
+      state.xp += baseXp;
+      state.streak += 1;
+      state.solved += 1;
+      saveState();
+      return baseCoins * mult;
+    }
+
+    function loseHeart() {
+      state.streak = 0;
+      if (!state.isVip && state.hearts > 0) {
+        state.hearts -= 1;
+      }
+      saveState();
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      document.getElementById(viewId).classList.add("active");
+    }
+
+    function goHome() {
+      playClick();
+      clearInterval(quizInterval);
+      switchView("view-home");
+      updateUI();
+    }
+
+    // =========================================================================
+    // 5. VIP MODAL A OBCHOD
+    // =========================================================================
+    function openVipModal() {
+      playClick();
+      document.getElementById("vipModal").classList.add("open");
+    }
+    function closeVipModal() {
+      playClick();
+      document.getElementById("vipModal").classList.remove("open");
+    }
+
+    function handleStripeClick(e) {
+      if (STRIPE_PAYMENT_LINK.includes("test_goalmaster_vip")) {
+        e.preventDefault();
+        alert("💡 Info pre majiteľa hry: Tu sa otvorí tvoja reálna platobná brána Stripe po vložení tvojho Stripe Payment Linku do kódu.\n\nPre okamžité vyskúšanie VIP zadaj nižšie testovací kód: FUTBALVIP2026");
+      }
+    }
+
+    function redeemVipCode() {
+      const code = document.getElementById("vipCodeInput").value.trim().toUpperCase();
+      if (VALID_VIP_CODES.includes(code)) {
+        state.isVip = true;
+        playVipSound();
+        saveState();
+        alert("👑 Gratulujeme! VIP členstvo bolo aktivované!");
+      } else {
+        playError();
+        alert("❌ Neplatný VIP kód. Skús testovací kód: FUTBALVIP2026");
+      }
+    }
+
+    function buyHeartsWithCoins() {
+      if (state.isVip) return alert("👑 Ako VIP máš neobmedzené životy zadarmo!");
+      if (state.hearts >= 3) return alert("❤️ Už máš plný počet životov!");
+      if (state.coins < 50) return alert("🪙 Nemáš dostatok mincí (potrebuješ 50 🪙).");
+      state.coins -= 50;
+      state.hearts = 3;
+      playSuccess();
+      saveState();
+    }
+
+    function buyDetectivePlays() {
+      if (state.isVip) return alert("👑 Ako VIP máš neobmedzené pokusy zadarmo!");
+      if (state.coins < 60) return alert("🪙 Nemáš dostatok mincí (potrebuješ 60 🪙).");
+      state.coins -= 60;
+      state.detectiveLeft += 3;
+      playSuccess();
+      saveState();
+      alert("🕵️ Pridané +3 pokusy do Detektíva prestupov!");
+    }
+
+    // =========================================================================
+    // 6. REŽIM 1: KLASICKÝ FUTBALOVÝ KVÍZ
+    // =========================================================================
+    let currentQuizCat = "ALL";
+    let currentQuestion = null;
+    let quizAnswered = false;
+    let quizTimeLeft = 15;
+    let quizInterval = null;
+    let usedQuizIndices = [];
+
+    function startQuizMode() {
+      if (!state.isVip && state.hearts <= 0) {
+        playError();
+        openVipModal();
+        return;
+      }
+      playClick();
+      switchView("view-quiz");
+      loadNextQuiz();
+    }
+
+    function selectQuizCategory(cat, btnEl) {
+      if (cat === "LEGENDS" && !state.isVip) {
+        playError();
+        openVipModal();
+        return;
+      }
+      playClick();
+      currentQuizCat = cat;
+      document.querySelectorAll(".cat-chip").forEach(c => c.classList.remove("active"));
+      btnEl.classList.add("active");
+      usedQuizIndices = [];
+      loadNextQuiz();
+    }
+
+    function loadNextQuiz() {
+      if (!state.isVip && state.hearts <= 0) {
+        goHome();
+        openVipModal();
+        return;
+      }
+      clearInterval(quizInterval);
+      quizAnswered = false;
+      document.getElementById("quizFeedback").className = "feedback-msg";
+      document.getElementById("nextQuizBtn").style.display = "none";
+      document.getElementById("varHintBtn").disabled = false;
+
+      const pool = GAME_DATABASE.quiz.filter(q => {
+        if (!state.isVip && q.cat === "LEGENDS") return false;
+        return currentQuizCat === "ALL" || q.cat === currentQuizCat;
+      });
+
+      let idx = Math.floor(Math.random() * pool.length);
+      if (usedQuizIndices.length >= pool.length) usedQuizIndices = [];
+      while (usedQuizIndices.includes(idx) && pool.length > 1) {
+        idx = Math.floor(Math.random() * pool.length);
+      }
+      usedQuizIndices.push(idx);
+      currentQuestion = pool[idx];
+
+      document.getElementById("quizCategoryLabel").textContent = currentQuestion.catName;
+      document.getElementById("quizProgressLabel").textContent = `#${state.solved + 1}`;
+      document.getElementById("quizQuestion").textContent = currentQuestion.q;
+
+      const optsDiv = document.getElementById("quizOptions");
+      optsDiv.innerHTML = "";
+      currentQuestion.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.className = "opt-btn";
+        btn.textContent = opt;
+        btn.onclick = () => checkQuizAnswer(i, btn);
+        optsDiv.appendChild(btn);
+      });
+
+      quizTimeLeft = 15;
+      document.getElementById("quizTimer").textContent = quizTimeLeft;
+      quizInterval = setInterval(() => {
+        quizTimeLeft--;
+        document.getElementById("quizTimer").textContent = quizTimeLeft;
+        if (quizTimeLeft <= 0) {
+          clearInterval(quizInterval);
+          handleQuizTimeout();
+        }
+      }, 1000);
+    }
+
+    function checkQuizAnswer(selectedIdx, btnEl) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      clearInterval(quizInterval);
+
+      const buttons = document.querySelectorAll("#quizOptions .opt-btn");
+      buttons.forEach(b => b.disabled = true);
+      document.getElementById("varHintBtn").disabled = true;
+
+      const fb = document.getElementById("quizFeedback");
+      if (selectedIdx === currentQuestion.ans) {
+        btnEl.classList.add("correct");
+        playSuccess();
+        const gained = addReward(15, 25);
+        fb.textContent = `⚽ GÓL! Správna odpoveď! (+${gained} 🪙, +25 XP)`;
+        fb.className = "feedback-msg show ok";
+      } else {
+        btnEl.classList.add("wrong");
+        buttons[currentQuestion.ans].classList.add("correct");
+        playError();
+        loseHeart();
+        fb.textContent = `❌ Vedľa! Správne bolo: ${currentQuestion.options[currentQuestion.ans]}`;
+        fb.className = "feedback-msg show err";
+      }
+      document.getElementById("nextQuizBtn").style.display = "inline-block";
+    }
+
+    function handleQuizTimeout() {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const buttons = document.querySelectorAll("#quizOptions .opt-btn");
+      buttons.forEach(b => b.disabled = true);
+      buttons[currentQuestion.ans].classList.add("correct");
+      playError();
+      loseHeart();
+      const fb = document.getElementById("quizFeedback");
+      fb.textContent = `⏱️ Čas vypršal! Správna odpoveď: ${currentQuestion.options[currentQuestion.ans]}`;
+      fb.className = "feedback-msg show err";
+      document.getElementById("nextQuizBtn").style.display = "inline-block";
+    }
+
+    function useVarHint() {
+      if (quizAnswered) return;
+      if (!state.isVip) {
+        if (state.coins < 30) return alert("🪙 Potrebuješ 30 🪙 na VAR nápovedu (alebo VIP členstvo).");
+        state.coins -= 30;
+        saveState();
+      }
+      playClick();
+      document.getElementById("varHintBtn").disabled = true;
+      const buttons = Array.from(document.querySelectorAll("#quizOptions .opt-btn"));
+      const wrongIndices = [0, 1, 2, 3].filter(i => i !== currentQuestion.ans);
+      wrongIndices.sort(() => Math.random() - 0.5);
+      buttons[wrongIndices[0]].classList.add("eliminated");
+      buttons[wrongIndices[1]].classList.add("eliminated");
+    }
+
+    // =========================================================================
+    // 7. REŽIM 2: KTO SOM? – DETEKTÍV PRESTUPOV
+    // =========================================================================
+    let currentDetPlayer = null;
+    let detAttempts = 5;
+    let detCluesShown = 0;
+    let detDone = false;
+
+    function startDetectiveMode() {
+      if (!state.isVip && state.detectiveLeft <= 0) {
+        playError();
+        openVipModal();
+        return;
+      }
+      playClick();
+      switchView("view-detective");
+      loadNextDetective();
+    }
+
+    function loadNextDetective() {
+      if (!state.isVip && state.detectiveLeft <= 0) {
+        goHome();
+        openVipModal();
+        return;
+      }
+      if (!state.isVip) {
+        state.detectiveLeft -= 1;
+        saveState();
+      }
+
+      detAttempts = 5;
+      detCluesShown = 0;
+      detDone = false;
+      document.getElementById("detAttempts").textContent = `${detAttempts}/5`;
+      document.getElementById("detInput").value = "";
+      document.getElementById("detFeedback").className = "feedback-msg";
+      document.getElementById("nextDetBtn").style.display = "none";
+      document.getElementById("xrayBtn").disabled = false;
+
+      const list = GAME_DATABASE.detective;
+      currentDetPlayer = list[Math.floor(Math.random() * list.length)];
+
+      // Časová os klubov
+      const tlDiv = document.getElementById("detTimeline");
+      tlDiv.innerHTML = "";
+      currentDetPlayer.career.forEach(step => {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.innerHTML = `
+          <div>
+            <div class="t-years">${step.years}</div>
+            <div class="t-club">🛡️ ${step.club}</div>
+          </div>
+          <div class="t-fee">${step.fee}</div>
+        `;
+        tlDiv.appendChild(item);
+      });
+
+      document.getElementById("detClues").innerHTML = "";
+
+      // Rýchle návrhy mien pre pohodlné hranie na mobile
+      const picksDiv = document.getElementById("detQuickPicks");
+      picksDiv.innerHTML = "";
+      const decoys = list.filter(p => p.name !== currentDetPlayer.name).sort(() => Math.random() - 0.5).slice(0, 4);
+      const choices = [currentDetPlayer.name, ...decoys.map(d => d.name)].sort(() => Math.random() - 0.5);
+      choices.forEach(name => {
+        const chip = document.createElement("button");
+        chip.className = "pick-chip";
+        chip.textContent = name;
+        chip.onclick = () => { document.getElementById("detInput").value = name; };
+        picksDiv.appendChild(chip);
+      });
+    }
+
+    function revealNextClue() {
+      if (detCluesShown < currentDetPlayer.clues.length) {
+        const clueText = currentDetPlayer.clues[detCluesShown];
+        detCluesShown++;
+        const tag = document.createElement("span");
+        tag.className = "clue-tag";
+        tag.textContent = `🔍 ${clueText}`;
+        document.getElementById("detClues").appendChild(tag);
+      }
+    }
+
+    function useXrayHint() {
+      if (detDone) return;
+      if (!state.isVip) {
+        if (state.coins < 40) return alert("🪙 Potrebuješ 40 🪙 na Röntgen (alebo VIP členstvo).");
+        state.coins -= 40;
+        saveState();
+      }
+      playClick();
+      revealNextClue();
+      if (detCluesShown >= currentDetPlayer.clues.length) {
+        document.getElementById("xrayBtn").disabled = true;
+      }
+    }
+
+    function normalizeStr(s) {
+      return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    }
+
+    function submitDetectiveGuess() {
+      if (detDone) return;
+      const raw = document.getElementById("detInput").value;
+      if (!raw.trim()) return;
+
+      const guess = normalizeStr(raw);
+      const target = normalizeStr(currentDetPlayer.name);
+      const lastName = target.split(" ").pop();
+
+      const fb = document.getElementById("detFeedback");
+      if (guess === target || (guess.length >= 4 && lastName === guess)) {
+        detDone = true;
+        playSuccess();
+        const gained = addReward(25, 40);
+        fb.textContent = `🎉 PRESNE TAK! Je to ${currentDetPlayer.name}! (+${gained} 🪙, +40 XP)`;
+        fb.className = "feedback-msg show ok";
+        document.getElementById("nextDetBtn").style.display = "inline-block";
+      } else {
+        detAttempts--;
+        document.getElementById("detAttempts").textContent = `${detAttempts}/5`;
+        playError();
+        if (detAttempts <= 0) {
+          detDone = true;
+          fb.textContent = `❌ Pokusy minuli! Hľadaný hráč bol: ${currentDetPlayer.name}`;
+          fb.className = "feedback-msg show err";
+          document.getElementById("nextDetBtn").style.display = "inline-block";
+        } else {
+          revealNextClue();
+          fb.textContent = `❌ Nesprávne! Odomkla sa ti nová indícia.`;
+          fb.className = "feedback-msg show err";
+        }
+      }
+    }
+
+    // =========================================================================
+    // 8. REŽIM 3: VYŠŠIE ALEBO NIŽŠIE
+    // =========================================================================
+    let hlPlayerA = null;
+    let hlPlayerB = null;
+    let hlMetric = "goals"; // "goals" alebo "value"
+    let hlCurrentStreak = 0;
+
+    function startHigherLowerMode() {
+      playClick();
+      hlCurrentStreak = 0;
+      document.getElementById("hlStreakVal").textContent = "0";
+      switchView("view-higherlower");
+      setupHigherLowerRound(true);
+    }
+
+    function setupHigherLowerRound(fresh = false) {
+      document.getElementById("hlFeedback").className = "feedback-msg";
+      document.getElementById("hlActionBtns").style.display = "flex";
+      const pool = GAME_DATABASE.higherLower;
+
+      if (fresh || !hlPlayerB) {
+        hlPlayerA = pool[Math.floor(Math.random() * pool.length)];
+      } else {
+        hlPlayerA = hlPlayerB;
+      }
+
+      do {
+        hlPlayerB = pool[Math.floor(Math.random() * pool.length)];
+      } while (hlPlayerB.name === hlPlayerA.name);
+
+      hlMetric = Math.random() > 0.5 ? "goals" : "value";
+
+      document.getElementById("hlMetricTitle").textContent = hlMetric === "goals"
+        ? "⚽ Kto strelil v kariére VIAC gólov?"
+        : "💶 Kto mal vyššiu maximálnu trhovú hodnotu?";
+
+      const unitLabel = hlMetric === "goals" ? "Gólov" : "mil. €";
+      document.getElementById("hlNameA").textContent = hlPlayerA.name;
+      document.getElementById("hlSubA").textContent = hlPlayerA.info;
+      document.getElementById("hlValA").textContent = hlPlayerA[hlMetric];
+      document.getElementById("hlUnitA").textContent = unitLabel;
+
+      document.getElementById("hlNameB").textContent = hlPlayerB.name;
+      document.getElementById("hlSubB").textContent = hlPlayerB.info;
+      document.getElementById("hlValB").textContent = "?";
+      document.getElementById("hlUnitB").textContent = unitLabel;
+    }
+
+    function guessHigherLower(isHigher) {
+      const valA = hlPlayerA[hlMetric];
+      const valB = hlPlayerB[hlMetric];
+      document.getElementById("hlValB").textContent = valB;
+      document.getElementById("hlActionBtns").style.display = "none";
+
+      const correct = isHigher ? (valB >= valA) : (valB <= valA);
+      const fb = document.getElementById("hlFeedback");
+
+      if (correct) {
+        hlCurrentStreak++;
+        document.getElementById("hlStreakVal").textContent = hlCurrentStreak;
+        playSuccess();
+        const gained = addReward(10, 15);
+        fb.textContent = `✅ Správne! (+${gained} 🪙) Pripravujem ďalšieho hráča...`;
+        fb.className = "feedback-msg show ok";
+        setTimeout(() => setupHigherLowerRound(false), 1200);
+      } else {
+        playError();
+        fb.textContent = `❌ Koniec série (${hlCurrentStreak})! ${hlPlayerB.name} má ${valB}.`;
+        fb.className = "feedback-msg show err";
+        hlCurrentStreak = 0;
+        document.getElementById("hlStreakVal").textContent = "0";
+        setTimeout(() => setupHigherLowerRound(true), 1800);
+      }
+    }
+
+    // =========================================================================
+    // 9. REŽIM 4: PREZIDENT KLUBU: ÁNO / NIE (VIP EXKLUZÍVNE)
+    // =========================================================================
+    let presStats = { money: 50, fans: 50, squad: 50, board: 50 };
+    let presWeeks = 1;
+    let currentDilemma = null;
+    let presOver = false;
+
+    function startPresidentMode() {
+      if (!state.isVip) {
+        playError();
+        openVipModal();
+        return;
+      }
+      playClick();
+      switchView("view-president");
+      resetPresidentGame();
+    }
+
+    function resetPresidentGame() {
+      presStats = { money: 50, fans: 50, squad: 50, board: 50 };
+      presWeeks = 1;
+      presOver = false;
+      document.getElementById("presRestartBtn").style.display = "none";
+      document.getElementById("presBtns").style.display = "grid";
+      document.getElementById("presFeedback").className = "feedback-msg";
+      updatePresidentBars();
+      nextDilemma();
+    }
+
+    function updatePresidentBars() {
+      document.getElementById("presWeeks").textContent = presWeeks;
+      ["money", "fans", "squad", "board"].forEach(k => {
+        const val = Math.max(0, Math.min(100, presStats[k]));
+        const cap = k.charAt(0).toUpperCase() + k.slice(1);
+        const bar = document.getElementById("bar" + cap
